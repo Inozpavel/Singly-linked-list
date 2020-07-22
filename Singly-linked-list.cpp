@@ -12,6 +12,15 @@ struct Node
 };
 
 
+/* Структура связного списка:
+	head -> node_1 -> ... -> node_n -> nullptr
+	head так же node, но самый первый
+	node указывающий на nullptr называется хвостом (tail)
+	Linked List (связный список) будем называть просто списком или LL
+	LL[0] = head
+	LL[1] = head.next
+	LL[2] = head.next.next
+*/
 template <typename T>
 class LinkedList 
 {
@@ -45,6 +54,18 @@ public:
 	void insert_before(T element, unsigned pos) 
 	{
 
+	}
+
+	// Добавление элемента в конец
+	void append(T element) 
+	{
+		insert(element, nodes_count);
+	}
+
+	// Добавление элемента в начало
+	void preppend(T element) 
+	{
+		insert_before(element, 0);
 	}
 
 	// Удаление одного элемента по значению value
