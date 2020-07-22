@@ -152,7 +152,7 @@ public:
 		while (i++ < _nodes_count);
 		return founds;
 	}
-	//Изменияет значение первого найденного элемента old_value на new_value 
+	//Изменяет значение первого найденного элемента old_value на new_value 
 	bool update(T old_value, T new_value)
 	{
 		Node<T>* current = _search(old_value);
@@ -163,10 +163,18 @@ public:
 	}
 	// Изменяет значение всех найденных вхождения old_value на new_value
 	// Вернёт количество замен
-	// NotImplemented
 	unsigned update_all(T old_value, T new_value) 
 	{
-		return 0;
+		unsigned i = 0;
+		Node<T>* current = nullptr;
+		do
+		{
+			current = _search(old_value, current);
+			if (current == nullptr)
+				return i;
+			current->data = new_value;
+		} while (i++ < _nodes_count);
+		return i;
 	}
 
 	// Обмен местами элементов first и second
@@ -182,7 +190,6 @@ public:
 	}
 
 	// Вычисляет длину списка (или возвращает кэшированную)
-	// NotImplemented
 	unsigned size() 
 	{
 		return _nodes_count;
@@ -258,6 +265,7 @@ void test()
 	list.push_front(-1);
 	list.push_front(-1);
 	list.push_front(-1);
+	list.update_all(-1, -2);
 	list.print();
 
 	cout << endl << list[list.size() - 1] << endl;
