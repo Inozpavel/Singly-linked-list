@@ -37,29 +37,42 @@ private:
 			previous->next = node->next;
 		delete node;
 	}
+	// Ищет элемент с начаал списка по индексу
+	// В стучае успеха возвращает указатель на него
+	// Иначе nullptr
+	Node<T>* _getElement(unsigned index)
+	{
+		if (index >= _nodesСount)
+			return nullptr;
+		Node<T>* current = _head;
+		unsigned i = 0;
+		while (current != nullptr && i < index)
+		{
+			current = current->next;
+			++i;
+		}
+		return current;
+	}
 
 public:
 	LinkedList() : _head(nullptr), _nodesСount(0)
 	{
 	}
 
-	// Добавление элемента (после pos)
+	// Добавление элемента на указанную позицию
 	void insert(T element, unsigned pos)
 	{
 		if (_nodesСount == 0)
 			_head = new Node<T>(element);
 		else
 		{
-			unsigned pos = 0;
-			auto previous = _head;
-			auto current = _head->next;
-			while (current != nullptr && pos < pos)
+			if (pos == 0)
+				_head = new Node<T>(element, _head);
+			else
 			{
-				previous = current;
-				current = current->next;
-				pos++;
+				auto current = _getElement(pos - 1);
+				current->next = new Node<T>(element, current->next);
 			}
-			previous->next = new Node<T>(element, current);
 		}
 		_nodesСount++;
 	}
@@ -80,7 +93,7 @@ public:
 	// Добавление элемента в начало
 	void push_front(T element) 
 	{
-		insert_before(element, 0);
+		insert(element, 0);
 	}
 
 	// Удаление одного элемента по значению value
@@ -150,21 +163,16 @@ public:
 
 	T& operator[](unsigned index)
 	{
-		if (index >= _nodesСount)
+		Node<T>* element = _getElement(index);
+		if (element == nullptr)
 			throw out_of_range("Ошибка. Индекс больше количества элементов в списке!");
-		Node<T>* current = _head;
-		unsigned i = 0;
-		while (current != nullptr && i < index)
-		{
-			current = current->next;
-			i++;
-		}
-		return current->data;
+		return element->data;
 	}
 
 	// Выводит список на экран
 	void print() 
 	{
+		cout << endl;
 		Node<T>* print_LL = _head;
 		while (print_LL != nullptr)
 		{
@@ -208,9 +216,20 @@ int main()
 	list.push_back(2);
 	list.push_back(3);
 	list.push_back(4);
-	cout << list[1] << endl;
-	list[1] = 0;
-	cout << list[1] << endl;
+
+	list.insert(9, 0);
+	list.insert(7, 1);
 	list.print();
-	cout << "\nТесты не реализованы!\n";
+
+	list.push_front(7);
+	list.push_front(7);
+	list.push_front(7);
+	list.print();
+
+	cout << endl << list[1] << endl;
+	list[1] = 0;
+	cout << list[1];
+	list.print();
+
+	cout << "\nКоличество элементов: " << list.size();
 }
