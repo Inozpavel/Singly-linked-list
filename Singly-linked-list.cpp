@@ -32,10 +32,13 @@ private:
 
 	// Удаляет элемент, сохраняя целосность списка
 	// previous = nullptr для удаления головного объекта
-	void _remove_node(Node<T>* node, Node<T>* previous)
+	void remove_node(Node<T>* node, Node<T>* previous = nullptr)
 	{
+		if (node == nullptr) return;
 		if (previous != nullptr)
 			previous->next = node->next;
+		else
+			_head = node->next;
 		delete node;
 	}
 	// Ищет элемент с начаал списка по индексу
@@ -53,15 +56,29 @@ private:
 		}
 		return current;
 	}
-	// Ищет Node, возвращает указатель на него в случае успеха, иначе nullptr
-	Node<T>* _search(T value, Node<T>* start_pos = nullptr)
+	// Получает предыдущий Node
+	Node<T>* _get_previous(Node<T>* node)
 	{
-		if (start_pos == nullptr)
-			start_pos = _head;
-		for (; start_pos != nullptr;
-			start_pos = start_pos->next)
-			if (start_pos->data == value)
-				return start_pos;
+		Node<T>* previous = nullptr;
+		for (Node<T>* element = _head;
+			element == nullptr;
+			element = element->next) {
+			if (element == node)
+				return previous;
+			previous = element;
+		}
+		return nullptr;
+	}
+	// Ищет Node, данные в которой равны value
+	// Возвращает указатель на него в случае успеха, иначе nullptr
+	Node<T>* _search(T value, Node<T>* startPos = nullptr)
+	{
+		Node<T>* current = startPos;
+		if (startPos == nullptr)
+			current = _head;
+		for (; current != nullptr; current = current->next)
+			if (current->data == value)
+				return current;
 		return nullptr;
 	}
 
@@ -105,22 +122,38 @@ public:
 	// NotImplemented
 	bool remove(T value) 
 	{
-		return false;
+		Node<T>* found = _search(value);
+		if (found == nullptr)
+			return false;
+		remove_node(found, _get_previous(found));
+		_nodes_count--;
+		return true;
 	}
 
 	// Удаление элемента на позиции pos
-	// NotImplemented
 	void remove_at(unsigned pos) 
 	{
-
+		if (pos >= _nodes_count)
+			return;
+		if (pos == 0)
+			remove_node(_head);
+		else 
+		{
+			Node<T>* previous = _get_element(pos - 1);
+			if (previous != nullptr)
+				remove_node(previous->next, previous);
+		}
+		_nodes_count--;
 	}
 
 	// Удаление всех элементов со значением value
 	// Вернёт количество удалённых элементов
-	// NotImplemented
 	unsigned remove_all(T value) 
 	{
-		return 0;
+		unsigned i = 0;
+		while (remove(value))
+			i++;
+		return i;
 	}
 
 	// Поиск одного элемента по значению
@@ -173,7 +206,8 @@ public:
 			if (current == nullptr)
 				return i;
 			current->data = new_value;
-		} while (i++ < _nodes_count);
+		} 
+		while (i++ < _nodes_count);
 		return i;
 	}
 
@@ -266,17 +300,18 @@ void test()
 	list.push_front(-1);
 	list.push_front(-1);
 	list.update_all(-1, -2);
+	list.remove_all(-2);
 	list.print();
 
-	cout << endl << list[list.size() - 1] << endl;
-	list[list.size() - 1] = 0;
-	cout << list[list.size() - 1];
-	list.print();
+	//cout << endl << list[list.size() - 1] << endl;
+	//list[list.size() - 1] = 0;
+	//cout << list[list.size() - 1];
+	//list.print();
 
-	cout << "\nКоличество элементов: " << list.size();
-	cout << endl << list.find(8) << endl;
-	for (auto i : list.find_all(-1))
-	{
-		cout << i << " ";
-	}
+	//cout << "\nКоличество элементов: " << list.size();
+	//cout << endl << list.find(8) << endl;
+	//for (auto i : list.find_all(-1))
+	//{
+	//	cout << i << " ";
+	//}
 }
