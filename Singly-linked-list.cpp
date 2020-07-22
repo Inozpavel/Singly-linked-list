@@ -3,6 +3,7 @@
 #include <string>
 using namespace std;
 
+//Узел списка, содержит данные и указатель на следующий элемент
 template <typename T>
 struct Node 
 {
@@ -38,9 +39,8 @@ private:
 		delete node;
 	}
 	// Ищет элемент с начаал списка по индексу
-	// В стучае успеха возвращает указатель на него
-	// Иначе nullptr
-	Node<T>* _getElement(unsigned index)
+	// В стучае успеха возвращает указатель на него, иначе nullptr
+	Node<T>* _get_element(unsigned index)
 	{
 		if (index >= _nodesСount)
 			return nullptr;
@@ -70,18 +70,11 @@ public:
 				_head = new Node<T>(element, _head);
 			else
 			{
-				auto current = _getElement(pos - 1);
+				auto current = _get_element(pos - 1);
 				current->next = new Node<T>(element, current->next);
 			}
 		}
 		_nodesСount++;
-	}
-
-	// Добавление элемента (до pos)
-	// NotImplemented
-	void insert_before(T element, unsigned pos) 
-	{
-
 	}
 
 	// Добавление элемента в конец
@@ -123,7 +116,7 @@ public:
 	// В случае успеха вернёт позицию первого элемента
 	unsigned find(T value, unsigned start_pos = 0) 
 	{
-		for (Node<T>* current = this[start_pos];
+		for (Node<T>* current = _get_element(start_pos);
 			current != nullptr;
 			current = current->next, start_pos++)
 			if (current->data == value)
@@ -133,10 +126,20 @@ public:
 
 	// Поиск всех элементов со значением value
 	// Вернёт список позиций найденных элементов
-	// NotImplemented
 	vector<unsigned> find_all(T value) 
 	{
-		return {};
+		vector<unsigned> founds = {};
+		unsigned i = 0;
+		do
+		{
+			i = find(value, i);
+			if (i != ~0)
+				founds.push_back(i);
+			else
+				break;
+		} 
+		while (i++ < _nodesСount);
+		return founds;
 	}
 
 	// Изменяет значение всех найденных вхождения old_value на new_value
@@ -161,11 +164,12 @@ public:
 		return _nodesСount;
 	}
 
+	//Оператор [] позволяет по индексу получить ссылку на элемент списка
 	T& operator[](unsigned index)
 	{
-		Node<T>* element = _getElement(index);
+		Node<T>* element = _get_element(index);
 		if (element == nullptr)
-			throw out_of_range("Ошибка. Индекс больше количества элементов в списке!");
+			throw out_of_range("Ошибка, некорректно задан индекс!");
 		return element->data;
 	}
 
@@ -176,7 +180,7 @@ public:
 		Node<T>* print_LL = _head;
 		while (print_LL != nullptr)
 		{
-			cout << print_LL->data; // вывод значения элемента 
+			cout << print_LL->data << " "; // вывод значения элемента 
 			print_LL = print_LL->next; // переход к следующему узлу
 		} 	
 	}
@@ -212,24 +216,29 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 	LinkedList<int> list = LinkedList<int>();
-	list.push_back(1);
-	list.push_back(2);
-	list.push_back(3);
-	list.push_back(4);
+
+	for (int i = 0; i < 10; i++)
+		list.push_back(i);
+	list.print();
 
 	list.insert(9, 0);
 	list.insert(7, 1);
 	list.print();
 
-	list.push_front(7);
-	list.push_front(7);
-	list.push_front(7);
+	list.push_front(-1);
+	list.push_front(-1);
+	list.push_front(-1);
 	list.print();
 
-	cout << endl << list[1] << endl;
-	list[1] = 0;
-	cout << list[1];
+	cout << endl << list[list.size()-1] << endl;
+	list[list.size() - 1] = 0;
+	cout << list[list.size() - 1];
 	list.print();
 
 	cout << "\nКоличество элементов: " << list.size();
+	cout << endl << list.find(8) << endl;
+	for (auto i : list.find_all(-1))
+	{
+		cout << i << " ";
+	}
 }
