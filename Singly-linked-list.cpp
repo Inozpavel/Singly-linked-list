@@ -3,6 +3,17 @@
 #include <string>
 using namespace std;
 
+class Person
+{
+private:
+	string _name;
+	string _surname;
+public:
+	Person(string surname, string name) : _name(name), _surname(surname)
+	{
+	}
+};
+
 /* Структура связного списка:
 	head -> node_1 -> ... -> node_n -> nullptr
 	head так же node, но самый первый
