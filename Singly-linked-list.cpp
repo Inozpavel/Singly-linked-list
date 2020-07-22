@@ -211,10 +211,16 @@ public:
 
 	}
 };
+void test();
 
-int main() 
+int main()
 {
 	setlocale(LC_ALL, "Russian");
+	test();
+}
+
+void test()
+{
 	LinkedList<int> list = LinkedList<int>();
 
 	for (int i = 0; i < 10; i++)
@@ -230,7 +236,7 @@ int main()
 	list.push_front(-1);
 	list.print();
 
-	cout << endl << list[list.size()-1] << endl;
+	cout << endl << list[list.size() - 1] << endl;
 	list[list.size() - 1] = 0;
 	cout << list[list.size() - 1];
 	list.print();
