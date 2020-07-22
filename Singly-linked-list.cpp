@@ -34,7 +34,9 @@ private:
 	// NotImplemented
 	void remove_node(Node<T>* node, Node<T>* previous)
 	{
-
+		if (previous != nullptr)
+			previous->next = node->next;
+		delete node;
 	}
 
 public:
@@ -122,11 +124,11 @@ public:
 
 	}
 
-	// Вычисляет длинну списка (или возвращает кешированную)
+	// Вычисляет длину списка (или возвращает кэшированную)
 	// NotImplemented
 	unsigned size() 
 	{
-		return 0;
+		return nodes_count;
 	}
 
 	// Выводит список на экран
