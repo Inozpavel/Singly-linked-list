@@ -26,7 +26,6 @@ class LinkedList
 {
 private:
 	Node<T>* _head;
-	Node<T>* _tail;
 	Node<T>* _end;
 	unsigned _nodesСount;
 
@@ -149,9 +148,18 @@ public:
 		return _nodesСount;
 	}
 
-	void operator[](unsigned index)
+	T& operator[](unsigned index)
 	{
-		return;
+		if (index >= _nodesСount)
+			throw out_of_range("Ошибка. Индекс больше количества элементов в списке!");
+		Node<T>* current = _head;
+		unsigned i = 0;
+		while (current != nullptr && i < index)
+		{
+			current = current->next;
+			i++;
+		}
+		return current->data;
 	}
 
 	// Выводит список на экран
@@ -200,6 +208,9 @@ int main()
 	list.push_back(2);
 	list.push_back(3);
 	list.push_back(4);
+	cout << list[1] << endl;
+	list[1] = 0;
+	cout << list[1] << endl;
 	list.print();
 	cout << "\nТесты не реализованы!\n";
 }
