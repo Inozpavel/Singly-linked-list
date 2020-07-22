@@ -33,7 +33,9 @@ private:
 	{
 		T data;
 		Node* next;
-		Node(T data, Node* next = nullptr) : data(data), next(next) {}
+		Node(T data, Node* next = nullptr) : data(data), next(next) 
+		{
+		}
 	};
 	Node<T>* _head;
 	Node<T>* _end;
@@ -139,10 +141,10 @@ public:
 	}
 
 	// Удаление элемента на позиции pos
-	void remove_at(unsigned pos) 
+	bool remove_at(unsigned pos) 
 	{
 		if (pos >= _nodes_count)
-			return;
+			return false;
 		if (pos == 0)
 			remove_node(_head);
 		else 
@@ -153,6 +155,7 @@ public:
 			remove_node(previous->next, previous);
 		}
 		_nodes_count--;
+		return true;
 	}
 
 	// Удаление всех элементов со значением value
@@ -248,7 +251,7 @@ public:
 	}
 
 	// Выводит список на экран
-	void print() 
+	void print_all() 
 	{
 		cout << endl;
 		Node<T>* print_LL = _head;
@@ -299,23 +302,23 @@ void test()
 
 	for (int i = 0; i < 10; i++)
 		list.push_back(i);
-	list.print();
+	list.print_all();
 
 	list.insert(9, 0);
 	list.insert(7, 1);
-	list.print();
+	list.print_all();
 
 	list.push_front(-1);
 	list.push_front(-1);
 	list.push_front(-1);
 	list.update_all(-1, -2);
 	list.remove_all(-2);
-	list.print();
+	list.print_all();
 
 	//cout << endl << list[list.size() - 1] << endl;
 	//list[list.size() - 1] = 0;
 	//cout << list[list.size() - 1];
-	//list.print();
+	//list.print_all();
 
 	//cout << "\nКоличество элементов: " << list.size();
 	//cout << endl << list.find(8) << endl;
