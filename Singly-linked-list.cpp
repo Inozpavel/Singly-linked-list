@@ -3,16 +3,6 @@
 #include <string>
 using namespace std;
 
-//Узел списка, содержит данные и указатель на следующий элемент
-template <typename T>
-struct Node 
-{
-	T data;
-	Node* next;
-	Node(T data, Node* next = nullptr) : data(data), next(next) {}
-};
-
-
 /* Структура связного списка:
 	head -> node_1 -> ... -> node_n -> nullptr
 	head так же node, но самый первый
@@ -26,6 +16,14 @@ template <typename T>
 class LinkedList 
 {
 private:
+	//Узел списка, содержит данные и указатель на следующий элемент
+	template <typename T>
+	struct Node
+	{
+		T data;
+		Node* next;
+		Node(T data, Node* next = nullptr) : data(data), next(next) {}
+	};
 	Node<T>* _head;
 	Node<T>* _end;
 	unsigned _nodes_count;
