@@ -59,13 +59,13 @@ public:
 	}
 
 	// Добавление элемента в конец
-	void append(T element) 
+	void push_back(T element) 
 	{
 		insert(element, nodes_count);
 	}
 
 	// Добавление элемента в начало
-	void preppend(T element) 
+	void push_front(T element) 
 	{
 		insert_before(element, 0);
 	}
@@ -94,7 +94,7 @@ public:
 	}
 
 	// Поиск одного элемента по значению
-	// В случае успеха вернёт позицию элемента
+	// В случае успеха вернёт позицию первого элемента
 	// NotImplemented
 	unsigned find(T value, unsigned start_pos = 0) 
 	{
@@ -131,6 +131,11 @@ public:
 		return nodes_count;
 	}
 
+	void operator[]()
+	{
+		return;
+	}
+
 	// Выводит список на экран
 	// NotImplemented
 	void print() 
@@ -155,5 +160,6 @@ public:
 
 int main() 
 {
+	LinkedList<int> list = LinkedList<int>();
 	cout << "Тесты не реализованы!\n";
 }
