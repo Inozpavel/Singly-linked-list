@@ -25,9 +25,9 @@ template <typename T>
 class LinkedList 
 {
 private:
-	Node<T>* head;
-	Node<T>* tail;
-	unsigned nodes_count;
+	Node<T>* _head;
+	Node<T>* _tail;
+	unsigned _nodes_count;
 
 	// Удаляет элемент, сохраняя целосность списка
 	// previous = nullptr для удаления головного объекта
@@ -39,7 +39,7 @@ private:
 	}
 
 public:
-	LinkedList() : head(nullptr), nodes_count(0) 
+	LinkedList() : _head(nullptr), _nodes_count(0) 
 	{
 	}
 
@@ -60,7 +60,7 @@ public:
 	// Добавление элемента в конец
 	void push_back(T element) 
 	{
-		insert(element, nodes_count);
+		insert(element, _nodes_count);
 	}
 
 	// Добавление элемента в начало
@@ -94,9 +94,13 @@ public:
 
 	// Поиск одного элемента по значению
 	// В случае успеха вернёт позицию первого элемента
-	// NotImplemented
 	unsigned find(T value, unsigned start_pos = 0) 
 	{
+		for (Node<T>* current = this[start_pos];
+			current != nullptr;
+			current = current->next, start_pos++)
+			if (current->data == value)
+				return start_pos;
 		return ~0; // unsigned_max
 	}
 
@@ -127,10 +131,10 @@ public:
 	// NotImplemented
 	unsigned size() 
 	{
-		return nodes_count;
+		return _nodes_count;
 	}
 
-	void operator[](unsigned)
+	void operator[](unsigned index)
 	{
 		return;
 	}
@@ -138,7 +142,7 @@ public:
 	// Выводит список на экран
 	void print() 
 	{
-		Node<T>* print_LL = head;
+		Node<T>* print_LL = _head;
 		while (print_LL != nullptr)
 		{
 			cout << print_LL->data; // вывод значения элемента 
