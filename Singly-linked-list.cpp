@@ -31,7 +31,6 @@ private:
 
 	// Удаляет элемент, сохраняя целосность списка
 	// previous = nullptr для удаления головного объекта
-	// NotImplemented
 	void remove_node(Node<T>* node, Node<T>* previous)
 	{
 		if (previous != nullptr)
@@ -131,23 +130,33 @@ public:
 		return nodes_count;
 	}
 
-	void operator[]()
+	void operator[](unsigned)
 	{
 		return;
 	}
 
 	// Выводит список на экран
-	// NotImplemented
 	void print() 
+	{
+		Node<T>* print_LL = head;
+		while (print_LL != nullptr)
+		{
+			cout << print_LL->data; // вывод значения элемента 
+			print_LL = print_LL->next; // переход к следующему узлу
+		} 	
+	}
+
+	// Удаляет все элементы из [start; stop]
+	// NotImplemented
+	void erase(unsigned start, unsigned stop)
 	{
 
 	}
 
-	// Удаляет все элементы
-	// NotImplemented
-	void erase() 
+	//Очистить весь список
+	void clear()
 	{
-
+		erase(0);
 	}
 
 	// Очистка памяти, удаление списка
@@ -160,6 +169,8 @@ public:
 
 int main() 
 {
+	setlocale(LC_ALL, "Russian");
 	LinkedList<int> list = LinkedList<int>();
+	list.print();
 	cout << "Тесты не реализованы!\n";
 }
