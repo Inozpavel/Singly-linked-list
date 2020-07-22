@@ -28,11 +28,11 @@ class LinkedList
 private:
 	Node<T>* _head;
 	Node<T>* _end;
-	unsigned _nodesСount;
+	unsigned _nodes_count;
 
 	// Удаляет элемент, сохраняя целосность списка
 	// previous = nullptr для удаления головного объекта
-	void remove_node(Node<T>* node, Node<T>* previous)
+	void _remove_node(Node<T>* node, Node<T>* previous)
 	{
 		if (previous != nullptr)
 			previous->next = node->next;
@@ -42,27 +42,38 @@ private:
 	// В стучае успеха возвращает указатель на него, иначе nullptr
 	Node<T>* _get_element(unsigned index)
 	{
-		if (index >= _nodesСount)
+		if (index >= _nodes_count)
 			return nullptr;
 		Node<T>* current = _head;
 		unsigned i = 0;
 		while (current != nullptr && i < index)
 		{
 			current = current->next;
-			++i;
+			i++;
 		}
 		return current;
 	}
+	// Ищет Node, возвращает указатель на него в случае успеха, иначе nullptr
+	Node<T>* _search(T value, Node<T>* start_pos = nullptr)
+	{
+		if (start_pos == nullptr)
+			start_pos = _head;
+		for (; start_pos != nullptr;
+			start_pos = start_pos->next)
+			if (start_pos->data == value)
+				return start_pos;
+		return nullptr;
+	}
 
 public:
-	LinkedList() : _head(nullptr), _nodesСount(0)
+	LinkedList() : _head(nullptr), _nodes_count(0)
 	{
 	}
 
 	// Добавление элемента на указанную позицию
 	void insert(T element, unsigned pos)
 	{
-		if (_nodesСount == 0)
+		if (_nodes_count == 0)
 			_head = new Node<T>(element);
 		else
 		{
@@ -70,17 +81,17 @@ public:
 				_head = new Node<T>(element, _head);
 			else
 			{
-				auto current = _get_element(pos - 1);
+				Node<T>* current = _get_element(pos - 1);
 				current->next = new Node<T>(element, current->next);
 			}
 		}
-		_nodesСount++;
+		_nodes_count++;
 	}
 
 	// Добавление элемента в конец
 	void push_back(T element) 
 	{
-		insert(element, _nodesСount);
+		insert(element, _nodes_count);
 	}
 
 	// Добавление элемента в начало
@@ -138,10 +149,18 @@ public:
 			else
 				break;
 		} 
-		while (i++ < _nodesСount);
+		while (i++ < _nodes_count);
 		return founds;
 	}
-
+	//Изменияет значение первого найденного элемента old_value на new_value 
+	bool update(T old_value, T new_value)
+	{
+		Node<T>* current = _search(old_value);
+		if (current == nullptr)
+			return false;
+		current->data = new_value;
+		return true;
+	}
 	// Изменяет значение всех найденных вхождения old_value на new_value
 	// Вернёт количество замен
 	// NotImplemented
@@ -151,17 +170,22 @@ public:
 	}
 
 	// Обмен местами элементов first и second
-	// NotImplemented
 	void swap(unsigned first_pos, unsigned second_pos) 
 	{
-
+		if (_nodes_count == 0)
+			throw out_of_range("Ошибка! Список пуст!");
+		if (first_pos >= _nodes_count || second_pos >= _nodes_count)
+			throw out_of_range("Ошибка! Некорректный индекс!");
+		Node<T>* data = _get_element(first_pos)->data;
+		_get_element(first_pos)->data = _get_element(second_pos)->data;
+		_get_element(second_pos)->data = data;
 	}
 
 	// Вычисляет длину списка (или возвращает кэшированную)
 	// NotImplemented
 	unsigned size() 
 	{
-		return _nodesСount;
+		return _nodes_count;
 	}
 
 	//Оператор [] позволяет по индексу получить ссылку на элемент списка
@@ -195,7 +219,7 @@ public:
 	// Удаляет все элементы начиная со start
 	void erase(unsigned start)
 	{
-		erase(start, _nodesСount - 1);
+		erase(start, _nodes_count - 1);
 	}
 
 	//Очистить весь список
