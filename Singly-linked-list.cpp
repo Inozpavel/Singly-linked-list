@@ -119,7 +119,6 @@ public:
 
 	// Удаление одного элемента по значению value
 	// Вернёт true в случае успеха (нашёл)
-	// NotImplemented
 	bool remove(T value) 
 	{
 		Node<T>* found = _search(value);
@@ -140,8 +139,9 @@ public:
 		else 
 		{
 			Node<T>* previous = _get_element(pos - 1);
-			if (previous != nullptr)
-				remove_node(previous->next, previous);
+			if (previous == nullptr)
+				return;
+			remove_node(previous->next, previous);
 		}
 		_nodes_count--;
 	}
@@ -150,10 +150,10 @@ public:
 	// Вернёт количество удалённых элементов
 	unsigned remove_all(T value) 
 	{
-		unsigned i = 0;
+		unsigned count = 0;
 		while (remove(value))
-			i++;
-		return i;
+			count++;
+		return count;
 	}
 
 	// Поиск одного элемента по значению
