@@ -27,7 +27,8 @@ class LinkedList
 private:
 	Node<T>* _head;
 	Node<T>* _tail;
-	unsigned _nodes_count;
+	Node<T>* _end;
+	unsigned _nodesСount;
 
 	// Удаляет элемент, сохраняя целосность списка
 	// previous = nullptr для удаления головного объекта
@@ -39,15 +40,29 @@ private:
 	}
 
 public:
-	LinkedList() : _head(nullptr), _nodes_count(0) 
+	LinkedList() : _head(nullptr), _nodesСount(0)
 	{
 	}
 
 	// Добавление элемента (после pos)
-	// NotImplemented
 	void insert(T element, unsigned pos)
 	{
-
+		if (_nodesСount == 0)
+			_head = new Node<T>(element);
+		else
+		{
+			unsigned pos = 0;
+			auto previous = _head;
+			auto current = _head->next;
+			while (current != nullptr && pos < pos)
+			{
+				previous = current;
+				current = current->next;
+				pos++;
+			}
+			previous->next = new Node<T>(element, current);
+		}
+		_nodesСount++;
 	}
 
 	// Добавление элемента (до pos)
@@ -60,7 +75,7 @@ public:
 	// Добавление элемента в конец
 	void push_back(T element) 
 	{
-		insert(element, _nodes_count);
+		insert(element, _nodesСount);
 	}
 
 	// Добавление элемента в начало
@@ -131,7 +146,7 @@ public:
 	// NotImplemented
 	unsigned size() 
 	{
-		return _nodes_count;
+		return _nodesСount;
 	}
 
 	void operator[](unsigned index)
@@ -157,6 +172,12 @@ public:
 
 	}
 
+	// Удаляет все элементы начиная со start
+	void erase(unsigned start)
+	{
+		erase(start, _nodesСount - 1);
+	}
+
 	//Очистить весь список
 	void clear()
 	{
@@ -175,6 +196,10 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 	LinkedList<int> list = LinkedList<int>();
+	list.push_back(1);
+	list.push_back(2);
+	list.push_back(3);
+	list.push_back(4);
 	list.print();
-	cout << "Тесты не реализованы!\n";
+	cout << "\nТесты не реализованы!\n";
 }
