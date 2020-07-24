@@ -150,7 +150,7 @@ public:
 		{
 			Node<T>* previous = _get_element(pos - 1);
 			if (previous == nullptr)
-				return;
+				return false;
 			remove_node(previous->next, previous);
 		}
 		_nodesCount--;
@@ -263,15 +263,20 @@ public:
 
 	// Удаляет все элементы из [start; stop]
 	// NotImplemented
-	void erase(unsigned start, unsigned stop)
+	bool erase(unsigned start, unsigned stop)
 	{
-
+		for (; start < stop; stop--)
+		{
+			if (!remove_at(start))
+				return false;
+		}
+		return true;
 	}
 
 	// Удаляет все элементы начиная со start
 	void erase(unsigned start)
 	{
-		erase(start, _nodesCount - 1);
+		erase(start, _nodesCount);
 	}
 
 	//Очистить весь список
@@ -284,7 +289,7 @@ public:
 	// NotImplemented
 	~LinkedList() 
 	{
-
+		clear();
 	}
 };
 void test();
@@ -297,7 +302,7 @@ int main()
 
 void test()
 {
-	LinkedList<int> list = LinkedList<int>();
+	/*LinkedList<int> list = LinkedList<int>();
 
 	for (int i = 0; i < 10; i++)
 		list.push_back(i);
@@ -312,7 +317,7 @@ void test()
 	list.push_front(-1);
 	list.update_all(-1, -2);
 	list.remove_all(-2);
-	list.print_all();
+	list.print_all();*/
 
 	//cout << endl << list[list.size() - 1] << endl;
 	//list[list.size() - 1] = 0;
@@ -325,4 +330,11 @@ void test()
 	//{
 	//	cout << i << " ";
 	//}
+	LinkedList<int>* list1 = new LinkedList<int>();
+	for (int i = 1; i < 3; i++)
+		list1->push_back(i);
+	list1->print_all();
+	list1->clear();
+	list1->print_all();
+	cout << endl <<list1->size();
 }
