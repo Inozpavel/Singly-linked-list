@@ -38,8 +38,7 @@ private:
 		}
 	};
 	Node<T>* _head;
-	Node<T>* _end;
-	unsigned _nodes_count;
+	unsigned _nodesCount;
 
 	// Удаляет элемент, сохраняя целосность списка
 	// previous = nullptr для удаления головного объекта
@@ -56,7 +55,7 @@ private:
 	// В стучае успеха возвращает указатель на него, иначе nullptr
 	Node<T>* _get_element(unsigned index)
 	{
-		if (index >= _nodes_count)
+		if (index >= _nodesCount)
 			return nullptr;
 		Node<T>* current = _head;
 		unsigned i = 0;
@@ -82,10 +81,10 @@ private:
 	}
 	// Ищет Node, данные в которой равны value
 	// Возвращает указатель на него в случае успеха, иначе nullptr
-	Node<T>* _search(T value, Node<T>* startPos = nullptr)
+	Node<T>* _search(T value, Node<T>* startElem = nullptr)
 	{
-		Node<T>* current = startPos;
-		if (startPos == nullptr)
+		Node<T>* current = startElem;
+		if (startElem	 == nullptr)
 			current = _head;
 		for (; current != nullptr; current = current->next)
 			if (current->data == value)
@@ -94,14 +93,14 @@ private:
 	}
 
 public:
-	LinkedList() : _head(nullptr), _nodes_count(0)
+	LinkedList() : _head(nullptr), _nodesCount(0)
 	{
 	}
 
 	// Добавление элемента на указанную позицию
-	void insert(T element, unsigned pos)
+	void insert(unsigned pos, T element)
 	{
-		if (_nodes_count == 0)
+		if (_nodesCount == 0)
 			_head = new Node<T>(element);
 		else
 		{
@@ -113,37 +112,37 @@ public:
 				current->next = new Node<T>(element, current->next);
 			}
 		}
-		_nodes_count++;
+		_nodesCount++;
 	}
 
 	// Добавление элемента в конец
 	void push_back(T element) 
 	{
-		insert(element, _nodes_count);
+		insert(_nodesCount, element);
 	}
 
 	// Добавление элемента в начало
 	void push_front(T element) 
 	{
-		insert(element, 0);
+		insert(0, element);
 	}
 
 	// Удаление одного элемента по значению value
 	// Вернёт true в случае успеха (нашёл)
 	bool remove(T value) 
 	{
-		Node<T>* found = _search(value);
-		if (found == nullptr)
+		Node<T>* foundElem = _search(value);
+		if (foundElem == nullptr)
 			return false;
-		remove_node(found, _get_previous(found));
-		_nodes_count--;
+		remove_node(foundElem, _get_previous(foundElem));
+		_nodesCount--;
 		return true;
 	}
 
 	// Удаление элемента на позиции pos
 	bool remove_at(unsigned pos) 
 	{
-		if (pos >= _nodes_count)
+		if (pos >= _nodesCount)
 			return false;
 		if (pos == 0)
 			remove_node(_head);
@@ -154,7 +153,7 @@ public:
 				return;
 			remove_node(previous->next, previous);
 		}
-		_nodes_count--;
+		_nodesCount--;
 		return true;
 	}
 
@@ -194,7 +193,7 @@ public:
 			else
 				break;
 		} 
-		while (i++ < _nodes_count);
+		while (i++ < _nodesCount);
 		return founds;
 	}
 	//Изменяет значение первого найденного элемента old_value на new_value 
@@ -219,16 +218,16 @@ public:
 				return i;
 			current->data = new_value;
 		} 
-		while (i++ < _nodes_count);
+		while (i++ < _nodesCount);
 		return i;
 	}
 
 	// Обмен местами элементов first и second
 	void swap(unsigned first_pos, unsigned second_pos) 
 	{
-		if (_nodes_count == 0)
+		if (_nodesCount == 0)
 			throw out_of_range("Ошибка! Список пуст!");
-		if (first_pos >= _nodes_count || second_pos >= _nodes_count)
+		if (first_pos >= _nodesCount || second_pos >= _nodesCount)
 			throw out_of_range("Ошибка! Некорректный индекс!");
 		Node<T>* data = _get_element(first_pos)->data;
 		_get_element(first_pos)->data = _get_element(second_pos)->data;
@@ -238,7 +237,7 @@ public:
 	// Вычисляет длину списка (или возвращает кэшированную)
 	unsigned size() 
 	{
-		return _nodes_count;
+		return _nodesCount;
 	}
 
 	//Оператор [] позволяет по индексу получить ссылку на элемент списка
@@ -272,7 +271,7 @@ public:
 	// Удаляет все элементы начиная со start
 	void erase(unsigned start)
 	{
-		erase(start, _nodes_count - 1);
+		erase(start, _nodesCount - 1);
 	}
 
 	//Очистить весь список
@@ -304,8 +303,8 @@ void test()
 		list.push_back(i);
 	list.print_all();
 
-	list.insert(9, 0);
-	list.insert(7, 1);
+	list.insert(0, 9);
+	list.insert(1, 7);
 	list.print_all();
 
 	list.push_front(-1);
