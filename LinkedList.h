@@ -25,7 +25,6 @@ class LinkedList
 	*/
 private:
 	//Узел списка, содержит данные и указатель на следующий элемент
-	template <typename T>
 	struct Node
 	{
 		T data;
@@ -34,12 +33,12 @@ private:
 		{
 		}
 	};
-	Node<T>* _head;
+	Node* _head;
 	unsigned _nodesCount;
 
 	// Удаляет элемент, сохраняя целосность списка
 	// previous = nullptr для удаления головного объекта
-	void remove_node(Node<T>* node, Node<T>* previous = nullptr)
+	void remove_node(Node* node, Node* previous = nullptr)
 	{
 		if (node == nullptr) return;
 		if (previous != nullptr)
@@ -50,11 +49,11 @@ private:
 	}
 	// Ищет элемент с начаал списка по индексу
 	// В стучае успеха возвращает указатель на него, иначе nullptr
-	Node<T>* _get_element(unsigned index)
+	Node* _get_element(unsigned index)
 	{
 		if (index >= _nodesCount)
 			return nullptr;
-		Node<T>* current = _head;
+		Node* current = _head;
 		unsigned i = 0;
 		while (current != nullptr && i < index)
 		{
@@ -64,23 +63,25 @@ private:
 		return current;
 	}
 	// Получает предыдущий Node
-	Node<T>* _get_previous(Node<T>* node)
+	Node* _get_previous(Node* node)
 	{
-		Node<T>* previous = nullptr;
-		for (Node<T>* element = _head;
-			element == nullptr;
-			element = element->next) {
-			if (element == node)
+		Node* current = node;
+		Node* previous = nullptr;
+		for (Node* startPos = _head;
+			startPos != nullptr;
+			startPos = startPos->next)
+		{
+			if (startPos == current)
 				return previous;
-			previous = element;
+			previous = startPos;
 		}
 		return nullptr;
 	}
 	// Ищет Node, данные в которой равны value
 	// Возвращает указатель на него в случае успеха, иначе nullptr
-	Node<T>* _search(T value, Node<T>* startElem = nullptr)
+	Node* _search(T value, Node* startElem = nullptr)
 	{
-		Node<T>* current = startElem;
+		Node* current = startElem;
 		if (startElem == nullptr)
 			current = _head;
 		for (; current != nullptr; current = current->next)
@@ -98,15 +99,15 @@ public:
 	void insert(unsigned pos, T element)
 	{
 		if (_nodesCount == 0)
-			_head = new Node<T>(element);
+			_head = new Node(element);
 		else
 		{
 			if (pos == 0)
-				_head = new Node<T>(element, _head);
+				_head = new Node(element, _head);
 			else
 			{
-				Node<T>* current = _get_element(pos - 1);
-				current->next = new Node<T>(element, current->next);
+				Node* current = _get_element(pos - 1);
+				current->next = new Node(element, current->next);
 			}
 		}
 		_nodesCount++;
@@ -128,7 +129,7 @@ public:
 	// Вернёт true в случае успеха (нашёл)
 	bool remove(T value)
 	{
-		Node<T>* foundElem = _search(value);
+		Node* foundElem = _search(value);
 		if (foundElem == nullptr)
 			return false;
 		remove_node(foundElem, _get_previous(foundElem));
@@ -145,7 +146,7 @@ public:
 			remove_node(_head);
 		else
 		{
-			Node<T>* previous = _get_element(pos - 1);
+			Node* previous = _get_element(pos - 1);
 			if (previous == nullptr)
 				return false;
 			remove_node(previous->next, previous);
@@ -168,7 +169,7 @@ public:
 	// В случае успеха вернёт позицию первого элемента
 	unsigned find(T value, unsigned start_pos = 0)
 	{
-		for (Node<T>* current = _get_element(start_pos);
+		for (Node* current = _get_element(start_pos);
 			current != nullptr;
 			current = current->next, start_pos++)
 			if (current->data == value)
@@ -195,7 +196,7 @@ public:
 	// Изменяет значение первого найденного элемента old_value на new_value 
 	bool update(T old_value, T new_value)
 	{
-		Node<T>* current = _search(old_value);
+		Node* current = _search(old_value);
 		if (current == nullptr)
 			return false;
 		current->data = new_value;
@@ -206,7 +207,7 @@ public:
 	unsigned update_all(T old_value, T new_value)
 	{
 		unsigned i = 0;
-		Node<T>* current = nullptr;
+		Node* current = nullptr;
 		do
 		{
 			current = _search(old_value, current);
@@ -224,7 +225,7 @@ public:
 			throw out_of_range("Ошибка! Список пуст!");
 		if (first_pos >= _nodesCount || second_pos >= _nodesCount)
 			throw out_of_range("Ошибка! Некорректный индекс!");
-		Node<T>* data = _get_element(first_pos)->data;
+		T data = _get_element(first_pos)->data;
 		_get_element(first_pos)->data = _get_element(second_pos)->data;
 		_get_element(second_pos)->data = data;
 	}
@@ -238,7 +239,7 @@ public:
 	// Оператор [] позволяет по индексу получить ссылку на элемент списка
 	T& operator[](unsigned index)
 	{
-		Node<T>* element = _get_element(index);
+		Node* element = _get_element(index);
 		if (element == nullptr)
 			throw out_of_range("Ошибка, некорректно задан индекс!");
 		return element->data;
@@ -248,12 +249,13 @@ public:
 	void print_all()
 	{
 		cout << endl;
-		Node<T>* print_LL = _head;
+		Node* print_LL = _head;
 		while (print_LL != nullptr)
 		{
 			cout << print_LL->data << " "; // вывод значения элемента 
 			print_LL = print_LL->next; // переход к следующему узлу
 		}
+		cout << endl;
 	}
 
 	// Удаляет все элементы из [start; stop]

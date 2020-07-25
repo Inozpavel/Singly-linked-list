@@ -14,36 +14,73 @@ int main()
 
 void test()
 {
-	/*LinkedList<int> list = LinkedList<int>();
-	for (int i = 0; i < 10; i++)
-		list.push_back(i);
-	list.print_all();
-	list.insert(0, 9);
-	list.insert(1, 7);
-	list.print_all();
-	list.push_front(-1);
-	list.push_front(-1);
-	list.push_front(-1);
-	list.update_all(-1, -2);
-	list.remove_all(-2);
-	list.print_all();*/
+	LinkedList<int> list;
 
-	//cout << endl << list[list.size() - 1] << endl;
-	//list[list.size() - 1] = 0;
-	//cout << list[list.size() - 1];
-	//list.print_all();
+	list.push_back(8);
+	list.push_back(860);
+	list.push_back(525);
+	list.push_front(111);
+	list.push_back(35);
+	list.push_front(123);
+	list.push_back(35);
+	list.push_front(456);
+	list.push_front(35);
 
-	//cout << "\nКоличество элементов: " << list.size();
-	//cout << endl << list.find(8) << endl;
-	//for (auto i : list.find_all(-1))
-	//{
-	//	cout << i << " ";
-	//}
-	LinkedList<int>* list1 = new LinkedList<int>();
-	for (int i = 1; i < 3; i++)
-		list1->push_back(i);
-	list1->print_all();
-	list1->clear();
-	list1->print_all();
-	cout << endl << list1->size();
+	cout << "Начальный список. ";
+	list.print_all();
+
+	cout << "Remove 860. ";
+	list.remove(860);
+	list.print_all();
+	cout << "Количество элементов: " << list.size() << endl << endl;
+
+	list.remove_all(35);
+	cout << "Remove_all 35. ";
+	list.print_all();
+	cout << "Количество элементов: " << list.size() << endl << endl;
+
+	list.remove(35);
+	cout << "Swap (0, list.size() - 1). ";
+	list.swap(0, list.size() - 1);
+	list.print_all();
+
+	cout << "Insert(2, 555). ";
+	list.insert(2, 555);
+	list.print_all();
+	cout << "Количество элементов: " << list.size() << endl << endl;
+
+	cout << "insert(4, 667).";
+	list.insert(4, 667);
+	list.print_all();
+
+	cout << "Количество элементов: " << list.size() << endl << endl;
+
+	auto count = list.update_all(667, 0);
+	cout << "list.update_all(667, 0). ";
+	list.print_all();
+
+	cout << "Количество замен: " << count << endl;
+	cout << "Количество элементов: " << list.size() << endl << endl;
+
+	auto element = 0;
+	list.print_all();
+	cout << "Позиция элемента " << element << " : " << list.find(element) << endl;
+	auto mas = list.find_all(element);
+	cout << "Позиция всех элементов " << element << " : ";
+	for (auto& i : mas)
+		cout << i << " ";
+	cout << endl;
+																							 
+	list.print_all();
+	cout << "\nИзмение элементов по [0] и [1] на 1. ";
+	list[0] = 1;
+	list[1] = 1;
+	list.print_all();
+
+	auto index = 1;
+	cout << "Элемент с индексом " << index << " : " << list[1] << endl;
+	
+	list.print_all();
+	cout << "\nТест++ и find для <int> : " << ++list[list.find(111)] << endl;
+	list.print_all();
 }
