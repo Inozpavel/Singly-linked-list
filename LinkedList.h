@@ -249,14 +249,15 @@ public:
 	// Выводит список на экран
 	void print_all()
 	{
-		cout << endl;
+		cout << "Список:" << endl;
 		Node* print_LL = _head;
 		while (print_LL != nullptr)
 		{
-			cout << print_LL->data << " "; // вывод значения элемента 
+			cout << static_cast<string>(print_LL->data) << endl; // вывод значения элемента 
 			print_LL = print_LL->next; // переход к следующему узлу
 		}
-		cout << endl;
+		if (_nodesCount != 0)
+			cout << endl;
 	}
 
 	// Удаляет все элементы из [start; stop]
