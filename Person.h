@@ -4,7 +4,6 @@
 #include <string>
 
 using std::string;
-using std::istream;
 using std::ostream;
 
 class Person
@@ -22,11 +21,11 @@ public:
 	// Сравнение двух экзампляров класса Person на равность
 	bool operator==(Person& other);
 
-	// Для вывода экземпляра на консоль
-	operator string();
-
 	// Для копирования объектов
 	Person& operator =(Person other);
+
+	// Для вывода на консоль
+	friend ostream& operator <<(ostream& out, Person& p);
 };
 
 #endif

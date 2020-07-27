@@ -14,11 +14,6 @@ bool Person::operator==(Person& other)
 	return _name == other._name && _surname == other._surname;
 }
 
-Person::operator string()
-{
-	return 	 _name + " " + _surname;
-}
-
 Person& Person::operator =(Person other)
 {
 	if (this == &other)
@@ -26,4 +21,9 @@ Person& Person::operator =(Person other)
 	_name = other._name;
 	_surname = other._surname;
 	return *this;
+}
+
+ostream& operator <<(ostream& out, Person& p)
+{
+	return out << p._name << ' ' << p._surname;
 }
