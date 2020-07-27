@@ -91,6 +91,7 @@ private:
 	}
 
 public:
+	static unsigned const NOT_FOUND = ~0;
 	LinkedList() : _head(nullptr), _nodesCount(0)
 	{
 	}

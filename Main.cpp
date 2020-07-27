@@ -6,15 +6,17 @@ using namespace std;
 
 void test();
 
+LinkedList<Person> list;
+
 int main()
 {
 	setlocale(LC_ALL, "Russian");
-	test();
+	//test();
 }
 
 void test()
 {
-	LinkedList<int> list;
+
 
 	list.push_back(8);
 	list.push_back(860);
