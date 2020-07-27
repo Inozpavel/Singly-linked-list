@@ -1,6 +1,10 @@
 ﻿#include <iostream>
 #include "Person.h"
 
+Person::Person()
+{
+}
+
 Person::Person(string surname, std::string name): _name(name), _surname(surname)
 {
 }
@@ -13,4 +17,13 @@ bool Person::operator==(Person& other)
 Person::operator string()
 {
 	return 	 _name + " " + _surname;
+}
+
+Person& Person::operator =(Person other)
+{
+	if (this == &other)
+		return *this;
+	_name = other._name;
+	_surname = other._surname;
+	return *this;
 }

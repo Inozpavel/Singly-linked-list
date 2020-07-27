@@ -15,6 +15,7 @@ private:
 	string _surname;
 
 public:
+	Person();
 
 	Person(string surname, string name);
 
@@ -23,6 +24,9 @@ public:
 
 	// Для вывода экземпляра на консоль
 	operator string();
+
+	// Для копирования объектов
+	Person& operator =(Person other);
 };
 
 #endif
