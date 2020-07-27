@@ -8,7 +8,7 @@
 using std::string;
 using std::vector;
 using std::out_of_range;
-using std::cout;
+using std::cout;  
 using std::endl;
 
 template <typename T>
@@ -250,11 +250,11 @@ public:
 	void print_all()
 	{
 		cout << "Список:" << endl;
-		Node* print_LL = _head;
-		while (print_LL != nullptr)
+		Node* current = _head;
+		while (current != nullptr)
 		{
-			cout << static_cast<string>(print_LL->data) << endl; // вывод значения элемента 
-			print_LL = print_LL->next; // переход к следующему узлу
+			cout << current->data << endl; // вывод значения элемента
+			current = current->next; // переход к следующему узлу
 		}
 		if (_nodesCount != 0)
 			cout << endl;
