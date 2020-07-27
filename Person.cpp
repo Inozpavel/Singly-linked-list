@@ -10,12 +10,7 @@ bool Person::operator==(Person& other)
 	return _name == other._name && _surname == other._surname;
 }
 
-istream& operator>>(istream& in, Person& p)
+Person::operator string()
 {
-	return in >> p._name >> p._surname;
-}
-
-ostream& operator<<(ostream& out, Person& p)
-{
-	return out << p._name + " " + p._surname;
+	return 	 _name + " " + _surname;
 }
