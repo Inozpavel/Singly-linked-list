@@ -20,6 +20,7 @@ LinkedList<Person> list;
 
 int main()
 {
+	system("title Singly-linked-list");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
