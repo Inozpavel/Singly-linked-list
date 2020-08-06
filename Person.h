@@ -18,7 +18,7 @@ public:
 
 	Person(string surname, string name);
 
-	// Сравнение двух экзампляров класса Person на равность
+	// Сравнение двух экземпляров класса Person на равность
 	bool operator==(Person& other);
 
 	// Для копирования объектов
